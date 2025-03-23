@@ -48,9 +48,9 @@ if analyze_button and text_input:
 
     # st.success(), st.warning(), st.error() for colorful feedback 
     if prediction == "positive":
-        st.success(f"😊 Positive Sentiment: {prediction}", icon="✅")
+        st.success(f"😊 Sentiment: {prediction}", icon="✅")
         st.balloons()
     elif prediction == "neutral":
-        st.warning(f"😐 Neutral Sentiment: {prediction}", icon="⚠️")
+        st.warning(f"😐 Sentiment: {prediction}", icon="⚠️")
     else:
-        st.error(f"😡 Negative Sentiment: {prediction}", icon="🚨")
+        st.error(f"😡 Sentiment: {prediction}", icon="🚨")
