@@ -46,6 +46,11 @@ if analyze_button and text_input:
     text_clf = st.session_state.text_clf
     prediction = text_clf.predict([text_input])[0]
 
-    # Color-coded output
-    color = "green" if prediction == "positive" else "yellow" if prediction == "neutral" else "red"
-    st.markdown(f"<p style='color:{color}; font-size:20px;'>Predicted Sentiment: {prediction}</p>", unsafe_allow_html=True)
+    # st.success(), st.warning(), st.error() for colorful feedback 
+    if prediction == "positive":
+        st.success(f"😊 Positive Sentiment: {prediction}", icon="✅")
+        st.balloons()
+    elif prediction == "neutral":
+        st.warning(f"😐 Neutral Sentiment: {prediction}", icon="⚠️")
+    else:
+        st.error(f"😡 Negative Sentiment: {prediction}", icon="🚨")
