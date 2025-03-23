@@ -1,2 +1,5 @@
 streamlit
 textblob
+streamlit_extras
+pandas
+scikit-learn

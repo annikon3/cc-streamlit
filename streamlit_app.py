@@ -1,45 +1,53 @@
 import streamlit as st
 from textblob import TextBlob
+import pandas as pd
+
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.svm import LinearSVC
+
+
+df_train = pd.read_csv("train.csv", encoding='latin-1')
+df_train.dropna(inplace=True)
+
+# Extract features (text) and labels (sentiment)
+X_train = df_train['text']
+y_train = df_train['sentiment']
+
+# Creating and training the model
+text_clf = Pipeline([
+    ('tfidf', TfidfVectorizer()),
+    ('clf', LinearSVC())
+])
+
+text_clf.fit(X_train, y_train)
+
+# test data
+df_test = pd.read_csv("test.csv", encoding='latin-1')
+df_test.head()
+X_test = df_test['text']
+y_test = df_test['sentiment']
 
 st.title("Sentiment Analysis WebApp")
 st.write(
     "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
 )
-text = st.text_area("Please Enter your text")
 
-if st.button("Analyze "): 
-    blob = TextBlob(message) 
-    result = blob.sentiment 
-    polarity = result.polarity 
-    subjectivity = result.subjectivity 
-    if polarity < 0: 
-        st.warning("The entered text has negative sentiments associated with it"+str(polarity)) 
-        rain( 
-        emoji="????", 
-        font_size=20, # the size of emoji 
-        falling_speed=3, # speed of raining 
-        animation_length="infinite", # for how much time the animation will happen 
-    ) 
-    if polarity >= 0: 
-        st.success("The entered text has positive sentiments associated with it."+str(polarity)) 
-        rain( 
-        emoji="????", 
-        font_size=20, # the size of emoji 
-        falling_speed=3, # speed of raining 
-        animation_length="infinite", # for how much time the animation will happen 
-        ) 
-    st.success(result) 
+text_input = st.text_input(
+    "Enter feedback below",
+    label_visibility=st.session_state.visibility,
+    disabled=st.session_state.disabled,
+    placeholder=st.session_state.placeholder,
+)
 
+if text_input:
+    st.write("You entered: ", text_input)
 
-# Implement a UI with Streamlit for Sentiment Analysis​
-""" 
-Objective: Utilize the Streamlit framework to create an interactive user interface (UI) for sentiment analysis, and deploy this application on Streamlit Cloud​
+if st.button("Analyze the Sentiment"): 
+  blob = TextBlob(text_input) 
+  result = blob.sentiment 
+  st.write(result)
 
-Key Actions:​
+text_clf.predict([{text_input}])
 
-Develop an application using Streamlit that allows users to input text and submit it for sentiment analysis​
-The application should dynamically display the sentiment analysis results using Streamlit's interactive widgets and data visualization capabilities​
-Address the task in the report
-Deployment Target: Streamlit Cloud, which is specifically optimized for hosting Streamlit applications
- """
-
+# text = st.text_area("Please enter feedback below")
