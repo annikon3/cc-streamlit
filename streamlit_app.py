@@ -1,7 +1,6 @@
 import streamlit as st
 from textblob import TextBlob
 import pandas as pd
-
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import LinearSVC
@@ -47,7 +46,6 @@ if st.button("Analyze the Sentiment"):
   blob = TextBlob(text_input) 
   result = blob.sentiment 
   st.write(result)
-
-text_clf.predict([{text_input}])
+  text_clf.predict([{text_input}])
 
 # text = st.text_area("Please enter feedback below")
