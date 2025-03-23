@@ -1,49 +1,28 @@
 import streamlit as st
-from textblob import TextBlob
 import pandas as pd
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import LinearSVC
 
-
+# Load and preprocess training data
 df_train = pd.read_csv("train.csv", encoding='latin-1')
 df_train.dropna(inplace=True)
-
-# Extract features (text) and labels (sentiment)
 X_train = df_train['text']
 y_train = df_train['sentiment']
 
-# Creating and training the model
+# Create and train the model
 text_clf = Pipeline([
     ('tfidf', TfidfVectorizer()),
     ('clf', LinearSVC())
 ])
-
 text_clf.fit(X_train, y_train)
 
-# test data
-df_test = pd.read_csv("test.csv", encoding='latin-1')
-df_test.head()
-X_test = df_test['text']
-y_test = df_test['sentiment']
-
+# Streamlit UI
 st.title("Sentiment Analysis WebApp")
-st.write(
-    "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
-)
+st.write("Enter a sentence to analyze its sentiment.")
 
-text_input = st.text_input(
-    "Enter feedback below",
-    label_visibility=st.session_state.visibility,
-    disabled=st.session_state.disabled,
-    placeholder=st.session_state.placeholder,
-)
-
+text_input = st.text_input("Enter your text:")
 if text_input:
-    st.write("You entered: ", text_input)
+    prediction = text_clf.predict([text_input])[0]
+    st.write("Predicted Sentiment:", prediction)
 
-if st.button("Analyze the Sentiment"): 
-  result = text_clf.predict([{text_input}])
-  st.write(result)
-
-# text = st.text_area("Please enter feedback below")
