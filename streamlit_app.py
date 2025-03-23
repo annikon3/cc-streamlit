@@ -43,9 +43,7 @@ if text_input:
     st.write("You entered: ", text_input)
 
 if st.button("Analyze the Sentiment"): 
-  blob = TextBlob(text_input) 
-  result = blob.sentiment 
+  result = text_clf.predict([{text_input}])
   st.write(result)
-  text_clf.predict([{text_input}])
 
 # text = st.text_area("Please enter feedback below")
