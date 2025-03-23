@@ -8,18 +8,19 @@ from sklearn.svm import LinearSVC
 st.title("Sentiment Analysis WebApp")
 st.write("Enter feedback to analyze its sentiment.")
 
+global text_clf
+text_clf = Pipeline([
+    ('tfidf', TfidfVectorizer()),
+    ('clf', LinearSVC())
+])
+
 # Load and process training data
 def train_model():
     df_train = pd.read_csv("train.csv", encoding='latin-1')
     df_train.dropna(inplace=True)
     X_train = df_train['text']
     y_train = df_train['sentiment']
-
-    global text_clf
-    text_clf = Pipeline([
-        ('tfidf', TfidfVectorizer()),
-        ('clf', LinearSVC())
-    ])
+    
     text_clf.fit(X_train, y_train)
     st.success("Model trained successfully!")
 
