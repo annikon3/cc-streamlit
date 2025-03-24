@@ -4,6 +4,9 @@ from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import LinearSVC
 
+# Sources: 
+# Streamlit Docs: https://docs.streamlit.io/develop/api-reference
+
 #  UI
 st.title("Sentiment Analysis WebApp")
 st.write("Please train the model first. Then, enter feedback to analyze its sentiment.")
